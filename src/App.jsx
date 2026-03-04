@@ -67,7 +67,23 @@ export default function App() {
                     <textarea id="ai-input" placeholder="Ask or paste a purpose sentence..." />
 
                     <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
-                        <button className="icon-btn" onClick={() => alert("Send stub")}>Send</button>
+                        <button
+                            className="icon-btn"
+                            onClick={async () => {
+
+                                const resp = await fetch("/api/send", {
+                                    method: "POST",
+                                    headers: { "Content-Type": "application/json" },
+                                    body: JSON.stringify({ payload: { question: "where is the bp" } }),
+                                });
+
+
+                                const text = await resp.text();
+                                alert(text);
+                            }}
+                        >
+                            Send
+                        </button>
                         <button className="icon-btn" onClick={() => alert("Clear stub")}>Clear</button>
                     </div>
 
