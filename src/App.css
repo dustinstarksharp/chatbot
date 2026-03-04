@@ -1,42 +1,130 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* ========= Base ========= */
+html, body, #root {
+    height: 100%;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+body {
+    margin: 0;
+    background: #0f1115;
+    color: #eaeef7;
+    font-family: system-ui, Segoe UI, Roboto, Arial, sans-serif;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.app {
+    height: 100%;
+    position: relative;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* ========= Left rectangular tab ========= */
+.left-dock {
+    position: fixed;
+    left: 0;
+    top: 40%;
+    transform: translateY(-50%);
+    width: 42px; /* narrow rectangle */
+    height: 140px;
+    background: #d53032; /* Sharp red */
+    border-radius: 0 10px 10px 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    z-index: 20;
 }
 
-.card {
-  padding: 2em;
+    .left-dock span {
+        writing-mode: vertical-rl; /* vertical label */
+        transform: rotate(180deg);
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        user-select: none;
+    }
+
+/* ========= Slide-out panel (LEFT) ========= */
+.side-panel {
+    position: fixed;
+    top: 0;
+    left: -380px; /* hidden off-screen to the left */
+    width: 380px;
+    height: 100%;
+    background: #161a22;
+    border-right: 2px solid #d53032;
+    transition: left 0.28s ease;
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
 }
 
-.read-the-docs {
-  color: #888;
+    .side-panel.open {
+        left: 0;
+    }
+
+/* Header inside panel */
+.panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    border-bottom: 1px solid #2a3142;
+}
+
+.panel-title {
+    margin: 0;
+    font-size: 18px;
+}
+
+.icon-btn, .close-btn {
+    background: #d53032;
+    border: 0;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Panel body */
+.panel-content {
+    padding: 16px;
+    color: #cfd5e6;
+    font-size: 14px;
+    line-height: 1.45;
+    overflow-y: auto;
+}
+
+    /* Optional input styles for later chat UI */
+    .panel-content textarea {
+        width: 100%;
+        resize: vertical;
+        min-height: 90px;
+        background: #0d1016;
+        color: #eaeef7;
+        border: 1px solid #2a3142;
+        border-radius: 8px;
+        padding: 8px;
+    }
+
+/* Dim background when open */
+.backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 25;
+}
+
+/* Demo center placeholder so page isn't empty */
+.center-placeholder {
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.box {
+    width: min(80%, 700px);
+    height: 240px;
+    border: 1px dashed #2a3142;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    color: #9aa3b8;
 }
