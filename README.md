@@ -25,6 +25,7 @@ To run this application:
 
 
 Finished ToDos (3/5/2026): 
+
 •	Create a base webpage
 
 •	Create a text box to input text
@@ -37,7 +38,9 @@ Finished ToDos (3/5/2026):
 
 •	Connect the API to the application
 
+
 ToDos to be completed (3/5/2026):
+	
 	We do not need BLI for:
 
 •	Implement bot history so chatbot remembers the most recent chat
