@@ -1,15 +1,17 @@
 ﻿import { useEffect, useRef, useState } from "react";
+import ChatBubble from "./Chat-bubble"; // ⬅️ adjust path if ChatBubble.jsx is elsewhere
+import { toDisplayModel } from "./api-response-reader"; // ⬅️ adjust path as needed, e.g., "../utils/api-response-reader"
 import "./App.css";
 
 export default function App() {
     const [open, setOpen] = useState(false);
     const closeBtnRef = useRef(null);
 
-    // Chat state
-    const [messages, setMessages] = useState([]);   // [{role:'user'|'assistant', content:string}]
+    // Chat state — messages now match ChatBubble shape: { role, html, text, typing, timestamp }
+    const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState("");     // input text
-    const [loading, setLoading] = useState(false);  // loading spinner
-    const [err, setErr] = useState("");             // error text
+    const [loading, setLoading] = useState(false);  // loading spinner flag for the Send button
+    const [err, setErr] = useState("");             // error text (top-level)
 
     const chatRef = useRef(null); // auto scroll
 
@@ -40,21 +42,37 @@ export default function App() {
     async function onSend() {
         if (!message.trim()) return;
 
-        const userMsg = { role: "user", content: message.trim() };
+        const userMsg = {
+            role: "user",
+            text: message.trim(),
+            html: null,
+            typing: false,
+            timestamp: new Date().toISOString()
+        };
 
-        // 1. Add USER message to chat
+        // 1) Add USER message to chat immediately
         setMessages((prev) => [...prev, userMsg]);
         setMessage(""); // clear input
         setErr("");
         setLoading(true);
 
+        // Optional: show a typing placeholder bubble
+        const typingMsg = {
+            role: "assistant",
+            text: "",
+            html: null,
+            typing: true,
+            timestamp: new Date().toISOString()
+        };
+        setMessages((prev) => [...prev, typingMsg]);
+
         try {
-            // 2. Send to backend (/api/send uses Vite proxy)
+            // 2) Send to backend (/api/send uses your Vite proxy)
             const resp = await fetch("/api/send", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    payload: { question: userMsg.content }
+                    payload: { question: userMsg.text }
                 }),
             });
 
@@ -63,19 +81,52 @@ export default function App() {
                 throw new Error(`API ${resp.status} ${resp.statusText}${text ? ` — ${text}` : ""}`);
             }
 
-            // 3. Read backend response
-            const text = await resp.text();
-            const aiMsg = { role: "assistant", content: text || "(No response)" };
+            // 3) Parse backend response JSON (Sharp "ask" shape)
+            const apiResponse = await resp.json();
 
-            // 4. Add AI message to chat
-            setMessages((prev) => [...prev, aiMsg]);
+            // 4) Normalize with your helper
+            const model = toDisplayModel(apiResponse);
+
+            // 5) Create the AI message for ChatBubble
+            const aiMsg = {
+                role: "assistant",
+                // Prefer formatted HTML if available; ChatBubble will render via dangerouslySetInnerHTML
+                html: model.answerHtml || null,
+                // Provide a plain-text fallback (also useful for copy-to-clipboard features later)
+                text: model.answerText || "(No response)",
+                typing: false,
+                timestamp: new Date().toISOString()
+            };
+
+            // 6) Replace the typing placeholder with the real message
+            setMessages((prev) => {
+                const copy = [...prev];
+                if (copy.length && copy[copy.length - 1].typing) {
+                    copy.pop();
+                }
+                return [...copy, aiMsg];
+            });
 
         } catch (e) {
             setErr(e.message);
-            setMessages((prev) => [
-                ...prev,
-                { role: "assistant", content: "Error: could not reach server." }
-            ]);
+
+            // Replace typing placeholder with an error bubble
+            setMessages((prev) => {
+                const copy = [...prev];
+                if (copy.length && copy[copy.length - 1].typing) {
+                    copy.pop();
+                }
+                return [
+                    ...copy,
+                    {
+                        role: "assistant",
+                        text: "Error: could not reach server.",
+                        html: null,
+                        typing: false,
+                        timestamp: new Date().toISOString()
+                    }
+                ];
+            });
         } finally {
             setLoading(false);
         }
@@ -131,9 +182,14 @@ export default function App() {
                     {/* CHAT WINDOW */}
                     <div className="chat-window" ref={chatRef}>
                         {messages.map((m, i) => (
-                            <div key={i} className={`chat-bubble ${m.role}`}>
-                                {m.content}
-                            </div>
+                            <ChatBubble
+                                key={i}
+                                role={m.role}
+                                text={m.text}
+                                html={m.html}
+                                typing={m.typing}
+                                timestamp={m.timestamp}
+                            />
                         ))}
                     </div>
 
@@ -154,7 +210,6 @@ export default function App() {
                             }
                         }}
                     />
-
 
                     {/* ACTION BUTTONS */}
                     <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
