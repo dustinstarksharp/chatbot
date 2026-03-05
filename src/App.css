@@ -45,8 +45,8 @@ body {
 .side-panel {
     position: fixed;
     top: 0;
-    left: -380px; /* hidden off-screen to the left */
-    width: 380px;
+    left: -480px; /* hidden off-screen to the left */
+    width: 480px;
     height: 100%;
     background: #161a22;
     border-right: 2px solid #d53032;
@@ -131,10 +131,10 @@ body {
 
 
 .chat-window {
-    max-height: 300px; /* adjust as you like */
+    flex: 1; /* take remaining vertical space */
     overflow-y: auto;
-    padding-right: 6px;
     margin: 12px 0;
+    padding-right: 6px;
     display: flex;
     flex-direction: column;
     gap: 10px;
