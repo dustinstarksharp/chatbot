@@ -13,6 +13,9 @@ export default function App() {
     const [loading, setLoading] = useState(false);  // loading spinner flag for the Send button
     const [err, setErr] = useState("");             // error text (top-level)
 
+    // NEW: holds the API's "history" array exactly as returned (reverse-ordered, server-capped)
+    const [serverHistory, setServerHistory] = useState([]);
+
     const chatRef = useRef(null); // auto scroll
 
     // ESC closes panel
@@ -67,12 +70,15 @@ export default function App() {
         setMessages((prev) => [...prev, typingMsg]);
 
         try {
-            // 2) Send to backend (/api/send uses your Vite proxy)
+            // IMPORTANT: send exactly the server-provided history (reverse-ordered, cumulative)
             const resp = await fetch("/api/send", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    payload: { question: userMsg.text }
+                    payload: {
+                        question: userMsg.text,
+                        history: serverHistory  // <-- as-is, no client-side reconstruction
+                    },
                 }),
             });
 
@@ -107,6 +113,12 @@ export default function App() {
                 return [...copy, aiMsg];
             });
 
+            // NEW: capture the server-returned history for next round
+            // The API returns the submitted history plus the latest Q/A at the START of the array (reverse order).
+            if (apiResponse && Array.isArray(apiResponse.history)) {
+                setServerHistory(apiResponse.history);
+            }
+
         } catch (e) {
             setErr(e.message);
 
@@ -135,6 +147,8 @@ export default function App() {
     function onClearChat() {
         setMessages([]);
         setErr("");
+        // Optional: reset the history to empty when clearing the chat UI
+        setServerHistory([]);
     }
 
     return (
@@ -198,8 +212,8 @@ export default function App() {
                         onKeyDown={(e) => {
                             //Press enter key = send a prompt to chatbot
                             if (e.key === "Enter" && !e.shiftKey) {
-                                e.preventDefault();   
-                                onSend();             
+                                e.preventDefault();
+                                onSend();
                             }
                             //Shift+Enter= allow newline (do nothing)
                         }}
