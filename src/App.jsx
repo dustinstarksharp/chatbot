@@ -192,14 +192,16 @@ export default function App() {
 
                     <textarea
                         id="ai-input"
-                        placeholder='e.g., "how does bp‑1200 work?"'
+                        placeholder='e.g., "how does BP‑1200 work?"'
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                         onKeyDown={(e) => {
-                            if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-                                e.preventDefault();
-                                onSend();
+                            //Press enter key = send a prompt to chatbot
+                            if (e.key === "Enter" && !e.shiftKey) {
+                                e.preventDefault();   
+                                onSend();             
                             }
+                            //Shift+Enter= allow newline (do nothing)
                         }}
                     />
 
