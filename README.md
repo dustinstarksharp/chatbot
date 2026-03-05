@@ -24,21 +24,31 @@ To run this application:
 5.	Use the chatbot
 
 
-Finished ToDos (3/5/2026):
+Finished ToDos (3/5/2026): 
 •	Create a base webpage
+
 •	Create a text box to input text
+
 •	Create a chat area to store text
+
 •	Create a chat bubble
+
 •	Connect the text box to the text area and store them in chat bubbles
+
 •	Connect the API to the application
 
 ToDos to be completed (3/5/2026):
 	We do not need BLI for:
+
 •	Implement bot history so chatbot remembers the most recent chat
+
 •	Implement exportable reports that users may use as proposals
+
 •	Refactor code into modular pieces to increase readability 
+
 •	Refine looks of chat interface
 
 We do need BLI for:
+
 •	Implement buttons on configured MFP that tell the AI what each piece does
 •	
