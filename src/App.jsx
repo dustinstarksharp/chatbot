@@ -171,14 +171,6 @@ export default function App() {
 
                 <div className="panel-content">
 
-                    {/* CONTEXT (optional) */}
-                    <p><strong>Context:</strong> Step 1 — Paper Feed</p>
-                    <ul>
-                        <li>Bypass: BP‑PT10 / BP‑PT11</li>
-                        <li>Air Suction: BP‑PT12–16</li>
-                        <li>High‑Capacity: BP‑PT17 / BP‑PT18</li>
-                    </ul>
-
                     {/* CHAT WINDOW */}
                     <div className="chat-window" ref={chatRef}>
                         {messages.map((m, i) => (
@@ -236,8 +228,7 @@ export default function App() {
                     {/* FOOTER TIP */}
                     <div style={{ marginTop: 18, fontSize: 12, color: "#8ea0c2" }}>
                         <p>
-                            Tip: This is your chat shell. You’ll later add streaming responses,
-                            step‑aware hints, and suggestions for BP‑1200 configuration.
+                            Tip: Tips from the AI are only a suggestion, please refer to client bids and management for a safe configuration.
                         </p>
                     </div>
 
