@@ -41,7 +41,7 @@ Finished ToDos (3/5/2026):
 
 ToDos to be completed (3/5/2026):
 	
-	We do not need BLI for:
+We do not need BLI for:
 
 •	Implement bot history so chatbot remembers the most recent chat
 
