@@ -128,3 +128,36 @@ body {
     place-items: center;
     color: #9aa3b8;
 }
+
+
+.chat-window {
+    max-height: 300px; /* adjust as you like */
+    overflow-y: auto;
+    padding-right: 6px;
+    margin: 12px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* USER bubble */
+.chat-bubble.user {
+    align-self: flex-end;
+    background: #d53032; /* Sharp red */
+    color: white;
+    padding: 8px 12px;
+    border-radius: 12px 12px 0 12px;
+    max-width: 80%;
+    white-space: pre-wrap;
+}
+
+/* AI bubble */
+.chat-bubble.assistant {
+    align-self: flex-start;
+    background: #232833;
+    color: #eaeef7;
+    padding: 8px 12px;
+    border-radius: 12px 12px 12px 0;
+    max-width: 80%;
+    white-space: pre-wrap;
+}
