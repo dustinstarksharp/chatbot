@@ -13,7 +13,22 @@ body {
 .app {
     height: 100%;
     position: relative;
+    overflow-x: hidden;
 }
+
+
+/* Prevent browser-level scrollbars; we'll manage scroll inside the panel */
+html, body {
+    overflow: hidden; /* <— add */
+}
+
+/* Safety: prevent any child from pushing width wider than viewport */
+*,
+*::before,
+*::after {
+    box-sizing: border-box; /* <— add */
+}
+
 
 /* ========= Left rectangular tab ========= */
 .left-dock {
@@ -54,6 +69,7 @@ body {
     z-index: 30;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
     .side-panel.open {
@@ -89,19 +105,27 @@ body {
     color: #cfd5e6;
     font-size: 14px;
     line-height: 1.45;
-    overflow-y: auto;
+
+
+    /* Key: this area scrolls, not the page */
+    overflow: auto; /* <— change from overflow-y: auto */
+    flex: 1 1 auto; /* <— add: fill remaining height in flex column */
+    min-height: 0; /* <— add: allows nested scroll to work */
 }
 
     /* Optional input styles for later chat UI */
     .panel-content textarea {
         width: 100%;
+        box-sizing: border-box;
         resize: vertical;
         min-height: 90px;
+        max-height: 40vh;
         background: #0d1016;
         color: #eaeef7;
         border: 1px solid #2a3142;
         border-radius: 8px;
         padding: 8px;
+        overflow-wrap: anywhere;
     }
 
 /* Dim background when open */
@@ -131,7 +155,8 @@ body {
 
 
 .chat-window {
-    flex: 1; /* take remaining vertical space */
+    flex: 1 1 auto; /* take remaining vertical space */
+    min-height: 0;
     overflow-y: auto;
     margin: 12px 0;
     padding-right: 6px;
@@ -149,6 +174,7 @@ body {
     border-radius: 12px 12px 0 12px;
     max-width: 80%;
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 /* AI bubble */
@@ -160,4 +186,5 @@ body {
     border-radius: 12px 12px 12px 0;
     max-width: 80%;
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
