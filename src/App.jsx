@@ -244,7 +244,7 @@ export default function App() {
                     {/* FOOTER TIP */}
                     <div style={{ marginTop: 18, fontSize: 12, color: "#8ea0c2" }}>
                         <p>
-                            Tip: Tips from the AI are only a suggestion, please refer to client bids and management for a safe configuration.
+                            Tip: Outputs from the AI are only a suggestion, please refer to client bids and management for a safe configuration.
                         </p>
                     </div>
 
