@@ -2,7 +2,7 @@
 import ChatBubble from "./Chat-bubble"; // ⬅️ adjust path if ChatBubble.jsx is elsewhere
 import { toDisplayModel } from "./api-response-reader"; // ⬅️ adjust path as needed, e.g., "../utils/api-response-reader"
 import "./App.css";
-
+import exportChatAsPDF from "./exportPDF";
 export default function App() {
     const [open, setOpen] = useState(false);
     const closeBtnRef = useRef(null);
@@ -17,6 +17,23 @@ export default function App() {
     const [serverHistory, setServerHistory] = useState([]);
 
     const chatRef = useRef(null); // auto scroll
+
+
+    async function onExport() {
+        try {
+            setErr("");
+            await exportChatAsPDF(messages, {
+                title: "AI Assistance — Chat Transcript",
+                fileNamePrefix: "chat-transcript",
+                // locale: "en-US",
+                includeTypingPlaceholders: false,
+            });
+        } catch (e) {
+            console.error(e);
+            setErr("Export failed. See console for details.");
+        }
+    }
+
 
     // ESC closes panel
     useEffect(() => {
@@ -232,6 +249,12 @@ export default function App() {
                         <button className="icon-btn" onClick={onClearChat}>
                             Clear
                         </button>
+
+
+                        <button className="icon-btn" onClick={onExport}>
+                            Export PDF
+                        </button>
+
                     </div>
 
                     {/* ERROR DISPLAY */}
