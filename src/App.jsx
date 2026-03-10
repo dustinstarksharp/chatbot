@@ -1,6 +1,6 @@
 ﻿import { useEffect, useRef, useState } from "react";
-import ChatBubble from "./Chat-bubble"; // ⬅️ adjust path if ChatBubble.jsx is elsewhere
-import { toDisplayModel } from "./api-response-reader"; // ⬅️ adjust path as needed, e.g., "../utils/api-response-reader"
+import ChatBubble from "./Chat-bubble";
+import { toDisplayModel } from "./api-response-reader";
 import "./App.css";
 import exportChatAsPDF from "./exportPDF";
 export default function App() {
@@ -13,7 +13,7 @@ export default function App() {
     const [loading, setLoading] = useState(false);  // loading spinner flag for the Send button
     const [err, setErr] = useState("");             // error text (top-level)
 
-    // NEW: holds the API's "history" array exactly as returned (reverse-ordered, server-capped)
+    // Holds the API's "history" array exactly as returned (reverse-ordered, server-capped)
     const [serverHistory, setServerHistory] = useState([]);
 
     const chatRef = useRef(null); // auto scroll
@@ -76,7 +76,7 @@ export default function App() {
         setErr("");
         setLoading(true);
 
-        // Optional: show a typing placeholder bubble
+        // Show a typing placeholder bubble
         const typingMsg = {
             role: "assistant",
             text: "",

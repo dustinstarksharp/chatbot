@@ -38,7 +38,6 @@ app.post("/api/send", async (req, res) => {
         const payload = req.body?.payload || {};
         const headers = { ...signRequest(BASE), "Content-Type": "application/json" };
 
-        // ✅ Node 18+ has global fetch
         const upstream = await fetch(BASE, {
             method: "POST",
             headers,
