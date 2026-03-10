@@ -19,14 +19,14 @@ body {
 
 /* Prevent browser-level scrollbars; we'll manage scroll inside the panel */
 html, body {
-    overflow: hidden; /* <— add */
+    overflow: hidden;
 }
 
 /* Safety: prevent any child from pushing width wider than viewport */
 *,
 *::before,
 *::after {
-    box-sizing: border-box; /* <— add */
+    box-sizing: border-box;
 }
 
 
@@ -107,13 +107,13 @@ html, body {
     line-height: 1.45;
 
 
-    /* Key: this area scrolls, not the page */
-    overflow: auto; /* <— change from overflow-y: auto */
-    flex: 1 1 auto; /* <— add: fill remaining height in flex column */
-    min-height: 0; /* <— add: allows nested scroll to work */
+    /* Scroll page*/
+    overflow: auto;
+    flex: 1 1 auto;
+    min-height: 0;
 }
 
-    /* Optional input styles for later chat UI */
+    
     .panel-content textarea {
         width: 100%;
         box-sizing: border-box;
@@ -155,7 +155,7 @@ html, body {
 
 
 .chat-window {
-    flex: 1 1 auto; /* take remaining vertical space */
+    flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
     margin: 12px 0;
@@ -165,10 +165,10 @@ html, body {
     gap: 10px;
 }
 
-/* USER bubble */
+/* user bubble */
 .chat-bubble.user {
     align-self: flex-end;
-    background: #d53032; /* Sharp red */
+    background: #d53032; 
     color: white;
     padding: 8px 12px;
     border-radius: 12px 12px 0 12px;
