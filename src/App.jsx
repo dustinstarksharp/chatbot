@@ -255,6 +255,10 @@ export default function App() {
                             Export PDF
                         </button>
 
+                        <button className="icon-btn">
+                            Connect to MFP Builder
+                        </button>
+
                     </div>
 
                     {/* ERROR DISPLAY */}
