@@ -3,6 +3,7 @@ import ChatBubble from "./Chat-bubble";
 import { toDisplayModel } from "./api-response-reader";
 import "./App.css";
 import exportChatAsPDF from "./exportPDF";
+import useSpeechToText from "./voice-to-text";
 export default function App() {
     const [open, setOpen] = useState(false);
     const closeBtnRef = useRef(null);
@@ -17,6 +18,13 @@ export default function App() {
     const [serverHistory, setServerHistory] = useState([]);
 
     const chatRef = useRef(null); // auto scroll
+
+    const {
+        text: voiceText,
+        listening,
+        startListening,
+        stopListening
+    } = useSpeechToText();
 
 
     async function onExport() {
@@ -57,6 +65,14 @@ export default function App() {
             chatRef.current.scrollTop = chatRef.current.scrollHeight;
         }
     }, [messages]);
+
+
+    useEffect(() => {
+        if (voiceText) {
+            setMessage(voiceText);
+        }
+    }, [voiceText]);
+
 
     // SEND handler
     async function onSend() {
@@ -221,20 +237,41 @@ export default function App() {
                         Type your question:
                     </label>
 
-                    <textarea
-                        id="ai-input"
-                        placeholder='e.g., "how does BP‑1200 work?"'
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        onKeyDown={(e) => {
-                            //Press enter key = send a prompt to chatbot
-                            if (e.key === "Enter" && !e.shiftKey) {
-                                e.preventDefault();
-                                onSend();
-                            }
-                            //Shift+Enter= allow newline (do nothing)
-                        }}
-                    />
+                    <div style={{ position: "relative", width: "100%" }}>
+                        <textarea
+                            id="ai-input"
+                            placeholder='e.g., "how does BP‑1200 work?"'
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter" && !e.shiftKey) {
+                                    e.preventDefault();
+                                    onSend();
+                                }
+                            }}
+                            style={{ width: "100%", paddingRight: "40px" }} // space for mic button
+                        />
+
+                        {/* 🎤 Microphone button INSIDE textbox */}
+                        <button
+                            type="button"
+                            onClick={listening ? stopListening : startListening}
+                            style={{
+                                position: "absolute",
+                                right: 8,
+                                bottom: 8,
+                                padding: "6px 8px",
+                                borderRadius: "6px",
+                                border: "none",
+                                background: listening ? "#ff4d4d" : "#3b82f6",
+                                color: "white",
+                                cursor: "pointer",
+                            }}
+                            title={listening ? "Stop voice input" : "Start voice input"}
+                        >
+                            🎤
+                        </button>
+                    </div>
 
                     {/* ACTION BUTTONS */}
                     <div style={{ display: "flex", gap: 8, marginTop: 10 }}>
@@ -261,12 +298,13 @@ export default function App() {
 
                     </div>
 
-                    {/* ERROR DISPLAY */}
+                    {/* ERROR DISPLAY 
                     {err && (
                         <p style={{ color: "#ff6b6b", marginTop: 12 }}>
                             {err}
                         </p>
                     )}
+                    */}
 
                     {/* FOOTER TIP */}
                     <div style={{ marginTop: 18, fontSize: 12, color: "#8ea0c2" }}>
