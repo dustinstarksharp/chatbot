@@ -63,7 +63,7 @@ html, body {
     left: -480px; /* hidden off-screen to the left */
     width: 480px;
     height: 100%;
-    background: #161a22;
+    background: #fff;
     border-right: 2px solid #d53032;
     transition: left 0.28s ease;
     z-index: 30;
@@ -88,6 +88,7 @@ html, body {
 .panel-title {
     margin: 0;
     font-size: 18px;
+    color: #1a1a1a
 }
 
 .icon-btn, .close-btn {
@@ -102,26 +103,24 @@ html, body {
 /* Panel body */
 .panel-content {
     padding: 16px;
-    color: #cfd5e6;
+    color: #1a1a1a;
     font-size: 14px;
     line-height: 1.45;
-
-
     /* Scroll page*/
     overflow: auto;
     flex: 1 1 auto;
     min-height: 0;
 }
 
-    
+
     .panel-content textarea {
         width: 100%;
         box-sizing: border-box;
         resize: vertical;
         min-height: 90px;
         max-height: 40vh;
-        background: #0d1016;
-        color: #eaeef7;
+        background: #ffffff;
+        color: #1a1a1a;
         border: 1px solid #2a3142;
         border-radius: 8px;
         padding: 8px;
@@ -168,8 +167,8 @@ html, body {
 /* user bubble */
 .chat-bubble.user {
     align-self: flex-end;
-    background: #d53032; 
-    color: white;
+    background: #d53032; /* brand red */
+    color: #ffffff;
     padding: 8px 12px;
     border-radius: 12px 12px 0 12px;
     max-width: 80%;
@@ -180,11 +179,12 @@ html, body {
 /* AI bubble */
 .chat-bubble.assistant {
     align-self: flex-start;
-    background: #232833;
-    color: #eaeef7;
+    background: #f2f4f8;           /* light neutral */
+    color: #1a1a1a;
     padding: 8px 12px;
     border-radius: 12px 12px 12px 0;
     max-width: 80%;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
+    border: 1px solid #e0e4ea;     /* subtle definition */
 }

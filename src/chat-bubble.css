@@ -9,11 +9,11 @@
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: #10223a;
+    background: #f0f3f8;
     display: grid;
     place-items: center;
-    color: #cfe1ff;
-    border: 1px solid #223a5a;
+    color: #4a5a75;
+    border: 1px solid #d5dbe5;
 }
 
 .cb.body {
@@ -26,25 +26,29 @@
     display: flex;
     justify-content: space-between;
     font-size: 12px;
-    color: #94a9c9;
+    color: #6b7280; /* muted gray */
 }
 
 .cb.bubble {
-    background: #132741;
-    color: #dbe8ff;
-    border: 1px solid #294267;
+    background: #f4f6fa;
+    color: #1a1a1a;
+    border: 1px solid #e1e5ec;
     padding: 10px;
     border-radius: 10px;
     word-break: break-word;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
 }
 
     .cb.bubble.user {
-        background: #1f385d;
+        background: #d53032;
+        color: #ffffff;
+        border-color: #d53032;
     }
 
     .cb.bubble.system {
-        background: #0d1e33;
-        border-style: dashed;
+        background: #fafafa;
+        color: #555;
+        border: 1px dashed #cfd4dc;
     }
 
 .cb.text {
@@ -61,7 +65,7 @@
     .cb.typing .dot {
         width: 6px;
         height: 6px;
-        background: #bcd4ff;
+        background: #9aa4b2;
         border-radius: 50%;
         animation: bounce 1.2s infinite ease-in-out;
     }
